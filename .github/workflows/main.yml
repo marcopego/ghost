@@ -11,4 +11,4 @@ jobs:
       - uses: TryGhost/action-deploy-theme@v1.0.0
         with:
           api-url: https://beta.musicvoice.it
-          api-key: b90805d471dd0722e46869a59c
+          api-key: 5db885e5a02d8f15613a26cf:41962ab456fe9caa1f317f985f220b0e8af936cb270343b97a410a86ff7100a9
