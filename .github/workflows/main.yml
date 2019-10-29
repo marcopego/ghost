@@ -1,0 +1,14 @@
+name: Deploy Theme
+on:
+  push:	
+    branches:	
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-19.04
+    steps:
+      - uses: actions/checkout@master
+      - uses: TryGhost/action-deploy-theme@v1.0.0
+        with:
+          api-url: ${{ secrets.https://beta.musicvoice.it }}
+          api-key: ${{ secrets.b90805d471dd0722e46869a59c }}
