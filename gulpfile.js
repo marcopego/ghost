@@ -3,17 +3,9 @@ const pump = require('pump');
 
 // gulp plugins and utils
 var livereload = require('gulp-livereload');
-var postcss = require('gulp-postcss');
+var sass = require('gulp-sass');
 var zip = require('gulp-zip');
-var uglify = require('gulp-uglify');
 var beeper = require('beeper');
-
-// postcss plugins
-var autoprefixer = require('autoprefixer');
-var colorFunction = require('postcss-color-function');
-var cssnano = require('cssnano');
-var customProperties = require('postcss-custom-properties');
-var easyimport = require('postcss-easy-import');
 
 function serve(done) {
     livereload.listen();
@@ -36,28 +28,13 @@ function hbs(done) {
     ], handleError(done));
 }
 
+sass.compiler = require('node-sass');
+
 function css(done) {
-    var processors = [
-        easyimport,
-        customProperties({preserve: false}),
-        colorFunction(),
-        autoprefixer({browsers: ['last 2 versions']}),
-        cssnano()
-    ];
-
     pump([
-        src('assets/css/*.css', {sourcemaps: true}),
-        postcss(processors),
-        dest('assets/built/', {sourcemaps: '.'}),
-        livereload()
-    ], handleError(done));
-}
-
-function js(done) {
-    pump([
-        src('assets/js/*.js', {sourcemaps: true}),
-        uglify(),
-        dest('assets/built/', {sourcemaps: '.'}),
+        src('./assets/main/sass/*.scss', {sourcemaps: true}),
+        sass({outputStyle: 'compressed'}).on('error', sass.logError),
+        dest('assets/main/css', {sourcemaps: './'}),
         livereload()
     ], handleError(done));
 }
@@ -78,10 +55,10 @@ function zipper(done) {
     ], handleError(done));
 }
 
-const cssWatcher = () => watch('assets/css/**', css);
+const cssWatcher = () => watch('./assets/main/sass/**/**', css);
 const hbsWatcher = () => watch(['*.hbs', 'partials/**/*.hbs', '!node_modules/**/*.hbs'], hbs);
 const watcher = parallel(cssWatcher, hbsWatcher);
-const build = series(css, js);
+const build = series(css);
 const dev = series(build, serve, watcher);
 
 exports.build = build;
