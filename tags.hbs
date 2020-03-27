@@ -1,0 +1,43 @@
+{{!< default}}
+{{!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template --}}
+
+{{!-- Main --}}
+<main id="main">
+
+    {{!-- Tag info --}}
+
+<ul>
+  <li><a href="https://beta.musicvoice.it/tag/recensioni-classica/">Recensioni Classica</a></li>
+  <li><a href="https://beta.musicvoice.it/tag/imperdibili/">Gli Imperdibili</a></li>
+  <li><a href="https://beta.musicvoice.it/tag/concerti/">Concerti</a></li>
+  <li><a href="https://beta.musicvoice.it/tag/opera/">Opera</a></li>
+</ul>
+    </header>
+    {{/tag}}
+
+    {{!-- Posts --}}
+    <section class="posts">
+
+        {{#foreach posts}}
+        <article>
+            <header>
+                <span class="date">{{date format="MMM D, YYYY"}}</span>
+                <h2><a href="{{url}}">{{title}}</a></h2>
+            </header>
+            {{#if feature_image}}
+            <a href="{{url}}" class="image fit"><img src="{{img_url feature_image}}" alt="{{title}}" /></a>
+            {{/if}}
+            <p>{{excerpt words="33"}}</p>
+            <ul class="actions special">
+                <li><a href="{{url}}" class="button">Full Story</a></li>
+            </ul>
+        </article>
+        {{/foreach}}
+
+    </section>
+
+    {{!-- Pagination --}}
+    {{pagination}}
+
+    </main>
